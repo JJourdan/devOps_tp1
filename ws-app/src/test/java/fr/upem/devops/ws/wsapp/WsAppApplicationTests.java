@@ -59,17 +59,4 @@ public class WsAppApplicationTests {
 		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
 		assertEquals(personne, response);
 	}
-
-	@Test
-	public void testGet() {
-		Personne personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes/{1}", Personne.class);
-		assertEquals(new Personne(1, "Jojo"), personnes);
-	}
-
-	@Test
-	public void testPost() {
-		this.restTemplate.postForObject("http://localhost:" + port + "/personnes", new Personne(4, "Jaja"), Personne.class);
-		List personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes", List.class);
-		assertEquals(2, personnes.size());
-	}
 }
