@@ -59,4 +59,11 @@ public class WsAppApplicationTests {
 		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
 		assertEquals(personne, response);
 	}
+
+	@Test
+	public void testPostForObject2() {
+		Personne personne = new Personne("Johan2");
+		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
+		assertEquals(personne, response);
+	}
 }
