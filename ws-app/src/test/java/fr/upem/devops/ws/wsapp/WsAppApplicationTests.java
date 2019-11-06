@@ -41,11 +41,17 @@ public class WsAppApplicationTests {
 		Personne p1 = new Personne(1L, "Jojo");
 		Personne p2 = new Personne(2L, "Jéjé");
 		Personne p3 = new Personne(3L, "Juju");
+		Personne p4 = new Personne("Johan");
+		Personne p5 = new Personne("Jérémie");
 
 		list = Arrays.asList(p1, p2, p3);
 
 		Mockito.when(personneRepository.findById(1L)).thenReturn(Optional.of(p1));
+		Mockito.when(personneRepository.findById(2L)).thenReturn(Optional.of(p2));
+		Mockito.when(personneRepository.findById(3L)).thenReturn(Optional.of(p3));
 		Mockito.when(personneRepository.findAll()).thenReturn(list);
+		Mockito.when(personneRepository.save(p4)).thenReturn(p4);
+		Mockito.when(personneRepository.save(p5)).thenReturn(p5);
 	}
 
 	@Test
@@ -65,5 +71,11 @@ public class WsAppApplicationTests {
 		Personne personne = new Personne("Johan2");
 		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
 		assertEquals(personne, response);
+	}
+
+	@Test
+	public void testGetAll2() {
+		Collection personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes", Collection.class);
+		assertEquals(personnes.size(), 5);
 	}
 }
