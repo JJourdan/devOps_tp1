@@ -41,8 +41,6 @@ public class WsAppApplicationTests {
 		Personne p1 = new Personne(1L, "Jojo");
 		Personne p2 = new Personne(2L, "Jéjé");
 		Personne p3 = new Personne(3L, "Juju");
-		Personne p4 = new Personne("Johan");
-		Personne p5 = new Personne("Jérémie");
 
 		list = Arrays.asList(p1, p2, p3);
 
@@ -50,8 +48,6 @@ public class WsAppApplicationTests {
 		Mockito.when(personneRepository.findById(2L)).thenReturn(Optional.of(p2));
 		Mockito.when(personneRepository.findById(3L)).thenReturn(Optional.of(p3));
 		Mockito.when(personneRepository.findAll()).thenReturn(list);
-		Mockito.when(personneRepository.save(p4)).thenReturn(p4);
-		Mockito.when(personneRepository.save(p5)).thenReturn(p5);
 	}
 
 	@Test
@@ -61,21 +57,22 @@ public class WsAppApplicationTests {
 	}
 	@Test
 	public void testPostForObject() {
-		Personne personne = new Personne("Johan");
-		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
-		assertEquals(personne, response);
+		Personne p4 = new Personne("Johan");
+		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", p4, Personne.class);
+		assertEquals(p4, response);
 	}
 
 	@Test
 	public void testPostForObject2() {
-		Personne personne = new Personne("Johan2");
-		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", personne, Personne.class);
-		assertEquals(personne, response);
+		Personne p5 = new Personne("Jérémie");
+		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", p5, Personne.class);
+		assertEquals(p5, response);
 	}
 
 	@Test
-	public void testGetAll2() {
-		Collection personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes", Collection.class);
-		assertEquals(personnes.size(), 5);
+	public void testGetOne() {
+		Personne p1 = new Personne(1L, "Jojo");
+		Personne personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes/1", Personne.class);
+		assertEquals(p1, personnes);
 	}
 }
