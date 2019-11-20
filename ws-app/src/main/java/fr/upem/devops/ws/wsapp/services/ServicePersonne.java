@@ -6,36 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service
 public class ServicePersonne {
-    /*
-    private final HashMap<Long, Personne> personnes = new HashMap<>();
-    private long size;
-
-    public Personne get(long id) { return personnes.get(id); }
-
-    public Collection<Personne> getAll(){
-        return personnes.values();
-    }
-
-    public Personne addPersonne(Personne personne){
-        personne.setId(size);
-        personnes.put(size++, personne);
-        return personne;
-    }
-
-    public void replacePersonne(long id, Personne newData) {
-        newData.setId(id);
-        personnes.replace(id, newData);
-    }
-
-    public Personne delete(long id) {
-        return personnes.remove(id);
-    }*/
-
     @Autowired
     private PersonneRepository personneRepository;
 
@@ -52,9 +26,9 @@ public class ServicePersonne {
         return personne;
     }
 
-    public void replacePersonne(long id, Personne newData) {
+    public Personne replacePersonne(long id, Personne newData) {
         newData.setId(id);
-        personneRepository.save(newData);
+        return personneRepository.save(newData);
     }
 
     public Personne delete(long id) {
@@ -65,4 +39,5 @@ public class ServicePersonne {
         }
         return null;
     }
+
 }

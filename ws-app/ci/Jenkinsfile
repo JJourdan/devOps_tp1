@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage ('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage ('Stop current service'){
+            steps{
+                sh 'curl -X POST localhost:8080/actuator/shutdown'
+            }
+        }
+    }
+}

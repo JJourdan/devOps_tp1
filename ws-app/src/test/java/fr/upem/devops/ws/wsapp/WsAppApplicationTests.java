@@ -3,6 +3,8 @@ package fr.upem.devops.ws.wsapp;
 import fr.upem.devops.ws.wsapp.data.PersonneRepository;
 import fr.upem.devops.ws.wsapp.model.Personne;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,8 +37,8 @@ public class WsAppApplicationTests {
 
 	@Before
 
-	public void init(){
-		Personne p1 = new Personne(1L, "Jojo");
+	public void init() {
+		Personne p1 = new Personne(1L, "Johan");
 		Personne p2 = new Personne(2L, "Jéjé");
 		Personne p3 = new Personne(3L, "Juju");
 
@@ -55,23 +55,18 @@ public class WsAppApplicationTests {
 		Collection personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes", Collection.class);
 		assertEquals(personnes.size(), 3);
 	}
+
 	@Test
 	public void testPostForObject() {
-		Personne p4 = new Personne("Johan");
+		Personne p4 = new Personne(10, "Johan");
+		Mockito.when(personneRepository.save(new Personne("Johan"))).thenReturn(p4);
 		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", p4, Personne.class);
 		assertEquals(p4, response);
 	}
 
 	@Test
-	public void testPostForObject2() {
-		Personne p5 = new Personne("Jérémie");
-		Personne response = this.restTemplate.postForObject("http://localhost:" + port + "/personnes", p5, Personne.class);
-		assertEquals(p5, response);
-	}
-
-	@Test
 	public void testGetOne() {
-		Personne p1 = new Personne(1L, "Jojo");
+		Personne p1 = new Personne(1L, "Johan");
 		Personne personnes = this.restTemplate.getForObject("http://localhost:" + port + "/personnes/1", Personne.class);
 		assertEquals(p1, personnes);
 	}
